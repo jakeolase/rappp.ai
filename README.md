@@ -29,7 +29,7 @@ After submitting the inputted project description, RAPPP.ai will direct users to
 
 ![Screenshot of recommendations after text input.](docs/output.png)
 
-Recommendations includes the name or title of the recommended programming languages, projects, or publication paper as well as the ***Cosine Similarity Score*** of the recommendations. The higher the similarity score, the more relevant the recommnedation is to the project description.
+Recommendation includes the name or title of the recommended programming languages, projects, or publication paper as well as the ***Cosine Similarity Score*** of the recommendations. The higher the similarity score, the more relevant the recommnedation is to the project description.
 
 ## A Collaborative Project
 RAPPP.ai is a collaborative capstone project in partial fulfillment for the requirements in S-CSIS311 Introduction to Machine Learning and S-CSIS312 Natural Language Processing. 
@@ -38,18 +38,19 @@ Developed By
 
 ### @jakeolase
 - Project Lead of RAPPP.ai
-- Development of the ML Model of Content-Based Recommendation System
+- Development of the ML Model, Content-Based Recommendation System
 - Front-End and UI/UX Design
+- Accuracy Testing of the ML/NLP Model
 
 ### @godwincaraan
 - Data Gathering and Text Processing
-- Development of the NLP Model of KeyBERT Feature Extraction
+- Development of the NLP Model, KeyBERT Feature Extraction
 - Back-end Developer
 
 ### @jongrantusa
 - Data Gathering
 - Back-end Developer
-- Code Migration and Refractoring of RAPPP.ai Jupyter Notebook to Python Website using Flask
+- Code Migration and Refractoring of Jupyter Notebook to Python Website using Flask
 
 
 ## License
