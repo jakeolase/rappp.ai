@@ -6,7 +6,7 @@ RAPPP.ai or Recommender Application for Programming Languages, Projects, and Pub
 ## How to Run RAPPP.ai
 
 **The application is currently deployed on a web hosting site. 
-[RAPPP.ai Live Demo](rappp.pythonanywhere.com)**
+[RAPPP.ai Live Demo](https://rappp.pythonanywhere.com/)**
 
 
 To run the application in your local server, your system must have the dependencies installed, found in ***requirements.txt***. Dependencies includes Flask, pandas, numpy, scikit-learn, nltk, and keybert.
