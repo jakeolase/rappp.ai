@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>RAPPP.ai | Recommender Application for Programming Languages, Projects, and Publication Paper</title>
+    <link rel="icon" type="image/x-icon" href="../static/icon.png">
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const messageEle = document.getElementById('user_input');
+        const counterEle = document.getElementById('current');
+
+        messageEle.addEventListener('input', function (e) {
+            const target = e.target;
+            const currentLength = "You need at least " + (50 - target.value.length) + " characters more";
+            if (target.value.length == 0){
+                counterEle.style.display = 'none';
+            }
+            else if(target.value.length < 50){
+                counterEle.innerHTML = currentLength;
+                counterEle.style.display = 'inline';
+                counterEle.style.color = '#adacac';
+                counterEle.style.fontWeight = '300';
+            }
+            else{
+                counterEle.innerHTML = "Your Input is Ready to Submit!";
+                counterEle.style.color = '#017FFF';
+                counterEle.style.display = 'inline';
+                counterEle.style.fontWeight = '700';
+            }
+        });
+    });
+    </script>
+
+</head>
+</head>
+<body>
+        <div id="header">
+            <div id="logo"></div>
+            <p id="app_name">Recommender Application for Programming <br>
+                Languages, Projects, and Publications</p>
+        </div>
+
+        <div id="home">
+            <p id="title">Let's start your idea <br> with RAPPP
+            <span class="ps"style="color:#003367; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#002C59; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#00264C; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#001F3F; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#001D3B; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#001C38; margin-left: -20px;">P</span>
+            <span class="ps"style="color:#001830; margin-left: -20px;">P</span>
+
+
+            </p>
+            <form action="/process" method="post">
+                <span id="current"></span>
+                <div class="box">
+                    <textarea id="user_input" class="user_input" name="user_input" rows="4" cols="50" placeholder="Unleash your creativity here! Tell RAPPP every bits and bytes of your programming project description in 50 characters or more!~
+
+The more information you tell RAPPP, the better!
+
+Sample project descriptions are available at the help menu.">{{ user_input }}</textarea><br>
+                    <a class="button" href="#popup1">?</a>
+                </div>
+                <input type="submit" value="SUBMIT">
+                <button id="clear">CLEAR</button>
+            </form>
+
+
+
+        </div>
+        {%if forms%}
+        {% if not recommendations %}
+        <p class="subtitle">Programming Languages</p>
+        <p class="body_text">Sorry, your entry does not have any relevant results. Please try again!</p>
+        {% else %}
+        <p class="subtitle" >Programming Languages</p>
+        <div class="div_programming" id="proglang">
+            {% for (prog, percentage), result in combined %}
+                <div class="result-programming">
+                    <p class="reco_title">{{ prog }}</p>
+                    <p class="percent">{{percentage}}%</p>
+                    <p class="body_text">{{ result[0] }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        {% if not projects %}
+        <p class="subtitle">Projects</p>
+        <p class="body_text">Sorry, your entry does not have any relevant results. Please try again!</p>
+        {% else %}
+        <p class="subtitle">Projects</p>
+        <div class="div_projects">
+            {% for (project, percentage), names in projects %}
+            <div class="result-projects">
+                <div class="results-projects-divider">
+                    <p class="proj_title">{{ names }} </p>
+                    <p class="percent">{{ percentage }}%</p>
+                </div>
+                <button class="github_repo" onclick="window.open('{{project}}', '_blank')">Github</button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+
+        {% if not paper %}
+        <p class="subtitle">Publication Papers</p>
+        <p class="body_text">Sorry, your entry does not have any relevant results. Please try again!</p>
+        {% else %}
+        <p class="subtitle">Publication Papers</p>
+        <div class="div_paper">
+            {% for papers in paper %}
+                <div class="result-paper">
+                    <div class="result-paper-divider">
+                        <p class="paper_title">{{ papers[0] }}</p>
+                        <p class="percent">{{ papers[3] }}%</p>
+                        <p class="body_text">{{ papers[2] }}</p>
+                    </div>
+                    <button class="read_paper" onclick="window.open('{{papers[1]}}', '_blank')">Read Paper</button>
+                </div>
+
+
+            {% endfor %}
+        {% endif %}
+        </div>
+        {%endif%}
+
+        {% if error %}
+        <br><br><br>
+            <p class="paper_title">{{ error }}</p>
+        {% endif %}
+
+        {% if no_reco%}
+            <br><br><br>
+
+        {% endif %}
+
+        <div id="footer">
+            <p id="researchpaper">RAPPP.ai: A Content-Based Programming Language, Projects, and Publication Paper Recommendation System Using KeyBERT</p>
+            <p id="researchers">Olase, Caraan, Grantusa (2023)</p>
+        </div>
+
+
+
+        <!-- popup -->
+        <div id="popup1" class="overlay" onclick="window.location.href='#'">
+            <div class="popup">
+                <h2>How to Use?</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    RAPPP.ai is a recommending application for programming languages, projects, and publication papers. Let RAPPP.ai start-up your ideas as it gives you recommendations to build your desired programming project!
+
+                    <br><br>
+
+                    <b>To use,</b> simply input a well-detailed <b>project description</b> of your desired project to work on and let RAPPP.ai recommend you tools to start up your idea. RAPPP.ai requires a project description with a <b>MINIMUM OF 50 CHARACTERS and in ENGLISH LANGUAGE.</b>
+
+                    <br><br>
+                    RAPPP.ai will recommend you tools with specific percentages. These percentage scores tells you how relevant are such tools to your project idea.
+
+                    <br><br>
+
+                    </div>
+
+                <h2>Sample Project Descriptions:</h2>
+
+                <h3>Mobile Game Application:</h3>
+                <div class="examples">
+                    <textarea type="text" disabled id="input1">The Codespace mobile game application is an exciting educational project that bridges learning and gaming. This project offers developers a unique challenge in creating a dynamic interface where users can engage with an interactive game world. In this game, the main protagonist, who represents the player, embarks on a quest to defeat monsters by answering their questions correctly. To bring this concept to life, we will need a versatile tech stack that allows for rapid development and deployment on multiple platforms. The project demands a well-structured database to store educational content and a responsive front-end interface for a smooth user experience. As the author has not yet finalized the choice of programming language, we will be evaluating potential candidates based on their suitability for this engaging and interactive mobile game.The game's core functionality includes:User Authentication: Implementing user profiles, achievements, and progress tracking, which requires a robust user management system.Content Management: Developing a content management system (CMS) to create, edit, and organize educational questions, lessons, and game elements.Game Mechanics: Designing the game's mechanics, including real-time gameplay, user interactions, and question generation.Dynamic Interface: Creating an intuitive and responsive user interface, featuring animations and dynamic visuals for engaging gameplay.Data Storage: Implementing a reliable database system to manage user data, game progress, and content.Cross-Platform Compatibility: Ensuring the game runs seamlessly on iOS and Android devices, considering the unique design and performance constraints of mobile platforms.Analytics and Metrics: Integrating analytics tools to track user progress, performance, and in-game behavior for continual improvement.</textarea>
+
+                <!-- The button used to copy the text -->
+                <button class="copy" onclick="copytext('input1')">COPY</button>
+                    </div>
+
+                <h3> Online Shop Website:</h3>
+                <div class="examples">
+                <textarea type="text" disabled id="input2">App to Cart revolutionizes the e-commerce landscape, offering users a unique and interactive platform that transcends traditional online transactions. Our web application caters to individuals who desire a holistic experience, involving market exploration, shopping endeavors, and seamless buying and selling interactions. Here are some key features and functionalities:User Authentication and Profiles: We've implemented a robust user authentication system ensuring secure profiles. User profiles showcase achievements, transaction history, and personalized dashboards, providing insights into market trends. Financial Management:
+                    App to Cart integrates financial tools empowering users to manage transactions, view purchase history, and track expenses incurred during their buying journeys. Secure payment gateways ensure smooth and secure financial transactions. Buy and Sell Marketplace:
+                    Our dynamic marketplace facilitates the diverse world of buying and selling. User-friendly listing and search functionalities ensure an efficient and enjoyable shopping experience. Social Interactions:
+                    Connect, follow, and communicate with other users through incorporated social features designed to enhance your market connections. Real-time notifications keep you updated on transactions, messages, and interactions, fostering a vibrant community. Dynamic User Interface: Experience an intuitive and responsive UI that enhances the buying and selling journey. Interactive visuals and animations engage users, providing an enjoyable browsing experience for market enthusiasts. Inventory Management: Effectively manage your inventory with tools to track sales, optimize listings, and support bulk uploads for a streamlined shopping and selling process. Our platform makes product catalog management seamless, ensuring a comprehensive market experience. Data Storage and Security: We utilize a robust database system to securely manage user data, transactions, and product information. Stringent security measures protect user information and financial data, providing a safe environment for your buying and selling activities. Cross-Platform Compatibility:
+                    App to Cart runs seamlessly across various web browsers and devices. We've optimized for both desktop and mobile platforms to ensure a consistent user experience during your market explorations. Analytics and Metrics:
+                    Integration of analytics tools allows us to track user behavior, popular products, and platform usage, providing valuable insights for market trends. Continuous monitoring enables improvements based on user preferences and evolving market dynamics.
+                </textarea>
+
+                <!-- The button used to copy the text -->
+                <button class="copy" onclick="copytext('input2')">COPY</button>
+                </div>
+
+                <h3>Artificial Intelligence:</h3>
+                <div class="examples">
+                <textarea type="text" disabled id="input3">RAPPP.ai (Recommender Application Programming Languages, Projects, and Publication paper) is an advanced artificial intelligence application meticulously crafted to streamline and enhance the project planning phase for developers and researchers in the domains of artificial intelligence, natural language processing, and machine learning. RAPPP seamlessly integrates cutting-edge technologies, including natural language processing and machine learning, to provide users with tailored recommendations for programming languages, projects, and publication papers based on their project descriptions. Here are the adjusted key features and functionalities: Natural Language Processing: Leveraging sophisticated natural language processing algorithms to extract key information from user-inputted project descriptions in the realm of artificial intelligence, natural language processing, and machine learning. Understanding user intent, context, and requirements specific to artificial intelligence, natural language processing, and machine learning projects to generate meaningful recommendations. User-Driven Recommendations: Empowering users to input project descriptions and receive personalized recommendations tailored for artificial intelligence, natural language processing, and machine learning projects. Recommendations cover suitable programming languages, relevant projects, and publication papers in these specialized domains. Programming Language Recommendation: Implementing advanced machine learning models to analyze project descriptions and recommend programming languages specifically for artificial intelligence, natural language processing, and machine learning projects. Considering factors such as project scope, complexity, and desired functionalities within the context of artificial intelligence, natural language processing, and machine learning. Project Recommendations: Leveraging machine learning algorithms to suggest relevant projects based on user-provided project descriptions, focusing on the fields of artificial intelligence, natural language processing, and machine learning. Offering a curated list of open-source projects, frameworks, and tools that align with the user's project goals in artificial intelligence, natural language processing, and machine learning. Publication Paper Recommendations: Integration of a recommendation engine that suggests academic papers and publications related to artificial intelligence, natural language processing, and machine learning projects. Enhancing the user's knowledge base with up-to-date research and scholarly resources in artificial intelligence, natural language processing, and machine learning. Dynamic User Interface: Designing an intuitive and responsive user interface specifically tailored for seamless interaction with the application in the context of artificial intelligence, natural language processing, and machine learning. Providing users with a clear and visually appealing display of recommendations in these specialized domains. Data Storage and Security: Implementing a secure data storage system to handle user project descriptions and preferences related to artificial intelligence, natural language processing, and machine learning. Adhering to data protection standards to ensure user privacy and confidentiality within the context of artificial intelligence, natural language processing, and machine learning. Cross-Platform Compatibility: Ensuring accessibility across multiple platforms, with a focus on web and mobile compatibility, to accommodate users in the fields of artificial intelligence, natural language processing, and machine learning. Analytics and Continuous Improvement: Integrating analytics tools to track user interactions, preferences, and feedback specifically for artificial intelligence, natural language processing, and machine learning projects. Regularly updating recommendation models based on user feedback and emerging technologies in artificial intelligence, natural language processing, and machine learning.
+                </textarea>
+
+                <!-- The button used to copy the text -->
+                <button class="copy" onclick="copytext('input3')">COPY</button>
+                </div>
+
+
+            </div>
+        </div>
+
+    <script type = "text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

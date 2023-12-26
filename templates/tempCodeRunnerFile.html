@@ -1,0 +1,16 @@
+
+        {% if not projects %}
+        <p class="subtitle">Projects</p>    
+        <p class="body_text">Sorry, your entry does not have any relevant results. Please try again!</p>
+        {% else %}
+        <p class="subtitle">Projects</p>
+        <div class="div_projects">
+            {% for (project, percentage), names in projects %}
+            <div class="result-projects">
+                <p class="reco_title">{{ names }} </p>
+                <p class="percent">{{ percentage }}%</p>
+                <button class="github_repo" onclick="window.open('{{project}}', '_blank')">Github</button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
